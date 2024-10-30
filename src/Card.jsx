@@ -16,7 +16,7 @@ function Card({cards})
             );
         }
         catch (error) {
-            console.log("Image not found!")
+            console.log("Image not found!");
         }
     });
 

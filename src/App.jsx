@@ -1,4 +1,5 @@
 import logo from "/logo.png";
+
 import "./App.css";
 
 import { useState } from "react";
@@ -96,7 +97,7 @@ function App(props) {
       setInGame(false);
       setCurrCards([]);
       if(score1 > score2) setEndMessage("Player 1 won!");
-      else if(score2 > score1) setEndMessage("Player 2 won!")
+      else if(score2 > score1) setEndMessage("Player 2 won!");
       else setEndMessage("Draw!");
     }
   };
@@ -115,7 +116,7 @@ function App(props) {
       <div>
         <img src={logo} className="logo" alt="Rocket logo" />
       </div>
-      <div className="base">
+      <div className="main">
         <h2>React High Card 🚀</h2>
         <Container>
             <Row className='row'>
@@ -128,9 +129,9 @@ function App(props) {
             {scoreBoard()}
         </Container>
         <br />
-        <button onClick={() => {
-          inGame ? dealCards() : reset()
-        }}>{inGame ? "Deal" : "Reset"}</button>
+        <button onClick={() => { inGame ? dealCards() : reset()}}>
+          {inGame ? "Deal" : "Reset"}
+        </button>
         {checkDeck(cardDeck)}
         {endMessage && <p>{endMessage}</p>}
       </div>

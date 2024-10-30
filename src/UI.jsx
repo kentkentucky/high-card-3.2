@@ -10,7 +10,6 @@ function UI({cards})
         <div key={`${name}${suit}`}>
         {name} of {suit}
         </div>
-        
     ));
 
     return (
