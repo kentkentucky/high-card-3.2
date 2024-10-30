@@ -12,10 +12,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-// scores
-let score1 = 0;
-let score2 = 0;
-
 function App(props) {
   // Set default value of card deck to new shuffled deck
   const [cardDeck, setCardDeck] = useState(makeShuffledDeck());
@@ -23,11 +19,15 @@ function App(props) {
   const [currCards, setCurrCards] = useState([]);
   // condition to check if game
   const [inGame, setInGame] = useState(true);
+  const [inRound, setInRound] = useState(true);
   const [endMessage, setEndMessage] = useState("");
+  const [score1, setScore1] = useState(0);
+  const [score2, setScore2] = useState(0);
 
   const dealCards = () => {
     const newCurrCards = [cardDeck.pop(), cardDeck.pop()];
     setCurrCards(newCurrCards);
+    setInRound(true);
   };
   // You can write JavaScript here, just don't try and set your state!
 
@@ -36,14 +36,16 @@ function App(props) {
     {
       if(cards[0].rank > cards[1].rank)
       {
-        score1++;
+        setScore1(score1 + 1);
+        setInRound(false);
         return (
           <p>Player 1 won this round!</p>
         );
       }
       else if(cards[1].rank > cards[0].rank)
       {
-        score2++;
+        setScore2(score2 + 1);
+        setInRound(false);
         return (
           <p>Player 2 won this round!</p>
         );
@@ -52,28 +54,32 @@ function App(props) {
       {
         if(cards[0].suit == 'Spades')
         {
-          score1++;
+          setScore1(score1 + 1);
+          setInRound(false);
           return (
             <p>Player 1 won this round!</p>
           );
         }
         else if(cards[0].suit == 'Hearts' && cards[1].suit == "Clubs" || cards[1].suit == "Diamonds")
         {
-          score1++;
+          setScore1(score1 + 1);
+          setInRound(false);
           return (
             <p>Player 1 won this round!</p>
           );
         }
         else if(cards[0].suit == 'Clubs' && cards[1].suit == "Diamond")
         {
-          score1++;
+          setScore1(score1 + 1);
+          setInRound(false);
           return (
             <p>Player 1 won this round!</p>
           );
         }
         else
         {
-          score2++;
+          setScore2(score2 + 1);
+          setInRound(false);
           return (
             <p>Player 2 won this round!</p>
           );
@@ -95,6 +101,7 @@ function App(props) {
     if(cardDeck.length == 0 && inGame)
     {
       setInGame(false);
+      setInRound(false);
       setCurrCards([]);
       if(score1 > score2) setEndMessage("Player 1 won!");
       else if(score2 > score1) setEndMessage("Player 2 won!");
@@ -103,11 +110,12 @@ function App(props) {
   };
 
   const reset = () => {
-    score1 = 0;
-    score2 = 0;
+    setScore1(0);
+    setScore2(0);
     setCardDeck(makeShuffledDeck());
     setCurrCards([]);
     setInGame(true);
+    setInRound(true);
     setEndMessage("");
   };
 
@@ -125,7 +133,7 @@ function App(props) {
             </Row>
             <UI cards={currCards}/>
             <Card cards={currCards}/>
-            {checkCards(currCards)}
+            {inRound && checkCards(currCards)}
             {scoreBoard()}
         </Container>
         <br />
